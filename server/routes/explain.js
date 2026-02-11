@@ -10,14 +10,15 @@ router.post("/", async (req, res) => {
   const { plan } = req.body;
 
   try {
-    const prompt = `
-You are a UI explanation agent.
+  const prompt = `
+You are a senior product designer working at a top-tier SaaS company.
 
-Explain clearly why the selected layout and components were chosen.
+Explain the reasoning behind UI decisions clearly and confidently.
 
-Plan:
-${plan}
+UI Plan:
+${JSON.stringify(plan, null, 2)}
 `;
+
 
     const result = await model.generateContent(prompt);
     const text = result.response.text();
