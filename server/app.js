@@ -1,12 +1,11 @@
+import dotenv from "dotenv";
+dotenv.config({ path: "./.env" });
 import express from "express";
 import cors from "cors";
-import dotenv from "dotenv";
-
 import planRoute from "./routes/plan.js";
 import generateRoute from "./routes/generate.js";
 import explainRoute from "./routes/explain.js";
 
-dotenv.config();
 
 const app = express();
 
