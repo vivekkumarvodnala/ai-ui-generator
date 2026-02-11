@@ -1,50 +1,27 @@
+import { useState } from "react";
 import ChatPanel from "./components/Chatpanel.jsx";
 import CodeEditorPanel from "./components/CodeEditorPanel.jsx";
 import PreviewPanel from "./components/PreviewPanel.jsx";
 
 export default function App() {
+
+  const [code, setCode] = useState("");
+
   return (
-    <div
-      style={{
-        display: "flex",
-        height: "100vh",
-        width: "100vw",
-        overflow: "hidden",
-      }}
-    >
-      {/* LEFT: Prompt / Chat Panel */}
-      <div
-        style={{
-          width: "25%",
-          minWidth: "250px",
-          borderRight: "1px solid #ddd",
-          height: "100%",
-        }}
-      >
-        <ChatPanel />
+    <div style={{ display: "flex", height: "100vh" }}>
+
+      <div style={{ width: "25%", borderRight: "1px solid #ddd" }}>
+        <ChatPanel setCode={setCode} />
       </div>
 
-      {/* MIDDLE: Code Editor */}
-      <div
-        style={{
-          width: "40%",
-          minWidth: "300px",
-          borderRight: "1px solid #ddd",
-          height: "100%",
-        }}
-      >
-        <CodeEditorPanel />
+      <div style={{ width: "35%", borderRight: "1px solid #ddd" }}>
+        <CodeEditorPanel code={code} setCode={setCode} />
       </div>
 
-      {/* RIGHT: Preview / Output Panel */}
-      <div
-        style={{
-          flex: 1,
-          height: "100%",
-        }}
-      >
-        <PreviewPanel />
+      <div style={{ flex: 1 }}>
+        <PreviewPanel code={code} />
       </div>
+
     </div>
   );
 }
