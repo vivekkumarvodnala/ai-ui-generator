@@ -5,10 +5,10 @@ import PreviewPanel from "./components/PreviewPanel.jsx";
 
 export default function App() {
   const [code, setCode] = useState("");
+  const [explanation, setExplanation] = useState("");
 
   return (
     <div style={{ display: "flex", flexDirection: "column", height: "100vh" }}>
-      
       {/* HEADER */}
       <div
         style={{
@@ -18,7 +18,7 @@ export default function App() {
           background: "linear-gradient(90deg, #6366f1, #8b5cf6)",
           color: "white",
           letterSpacing: "0.5px",
-          boxShadow: "0 4px 20px rgba(99,102,241,0.3)"
+          boxShadow: "0 4px 20px rgba(99,102,241,0.3)",
         }}
       >
         🚀 AI UI Studio
@@ -30,7 +30,7 @@ export default function App() {
           display: "flex",
           flex: 1,
           padding: "20px",
-          gap: "20px"
+          gap: "20px",
         }}
       >
         {/* CHAT PANEL */}
@@ -40,19 +40,19 @@ export default function App() {
             width: "25%",
             padding: "16px",
             display: "flex",
-            flexDirection: "column"
+            flexDirection: "column",
           }}
         >
           <div
             style={{
               fontWeight: 600,
               marginBottom: 12,
-              color: "#6366f1"
+              color: "#6366f1",
             }}
           >
             💬 AI Chat
           </div>
-          <ChatPanel setCode={setCode} />
+          <ChatPanel setCode={setCode} setExplanation={setExplanation} />
         </div>
 
         {/* CODE EDITOR */}
@@ -62,14 +62,14 @@ export default function App() {
             width: "35%",
             padding: "16px",
             display: "flex",
-            flexDirection: "column"
+            flexDirection: "column",
           }}
         >
           <div
             style={{
               fontWeight: 600,
               marginBottom: 12,
-              color: "#8b5cf6"
+              color: "#8b5cf6",
             }}
           >
             🧠 Code Editor
@@ -84,19 +84,24 @@ export default function App() {
             flex: 1,
             padding: "16px",
             display: "flex",
-            flexDirection: "column"
+            flexDirection: "column",
           }}
         >
           <div
             style={{
               fontWeight: 600,
               marginBottom: 12,
-              color: "#ec4899"
+              color: "#ec4899",
             }}
           >
             🎨 Live Preview
           </div>
           <PreviewPanel code={code} />
+          
+          <div style={{ padding: "16px", borderTop: "1px solid #ddd" }}>
+            <h3>AI Reasoning</h3>
+            <p>{explanation}</p>
+          </div>
         </div>
       </div>
     </div>

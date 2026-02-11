@@ -1,15 +1,14 @@
 import { useState } from "react";
 import axios from "axios";
 
-export default function ChatPanel({ setCode }) {
-
+export default function ChatPanel({ setCode,setExplanation }) {
   const [input, setInput] = useState("");
 
   const handleGenerate = async () => {
     try {
       // Step 1: Call Planner
       const planRes = await axios.post("http://localhost:5000/plan", {
-        userInput: input
+        userInput: input,
       });
 
       const plan = planRes.data.plan;
@@ -18,8 +17,13 @@ export default function ChatPanel({ setCode }) {
 
       // Step 2: Call Generator
       const generateRes = await axios.post("http://localhost:5000/generate", {
-        plan: plan
+        plan: plan,
       });
+      const explainRes = await axios.post("http://localhost:5000/explain", {
+        plan: plan,
+      });
+
+      setExplanation(explainRes.data.explanation);
 
       const code = generateRes.data.code;
 
@@ -27,7 +31,6 @@ export default function ChatPanel({ setCode }) {
 
       // Step 3: Set Code in Editor
       setCode(code);
-
     } catch (error) {
       console.error("Error generating UI:", error);
     }
@@ -44,10 +47,7 @@ export default function ChatPanel({ setCode }) {
         style={{ width: "100%", padding: "8px" }}
       />
 
-      <button
-        onClick={handleGenerate}
-        style={{ marginTop: "10px" }}
-      >
+      <button onClick={handleGenerate} style={{ marginTop: "10px" }}>
         Generate
       </button>
     </div>
