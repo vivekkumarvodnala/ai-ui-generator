@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 
-export default function ChatPanel({ setCode,setExplanation }) {
+export default function ChatPanel({ setCode,setExplanation,setHistory }) {
   const [input, setInput] = useState("");
 
   const handleGenerate = async () => {
@@ -27,10 +27,13 @@ export default function ChatPanel({ setCode,setExplanation }) {
 
       const code = generateRes.data.code;
 
+
       console.log("Generated Code:", code);
 
       // Step 3: Set Code in Editor
       setCode(code);
+      setHistory(prev => [...prev, { input, code }]);
+
     } catch (error) {
       console.error("Error generating UI:", error);
     }

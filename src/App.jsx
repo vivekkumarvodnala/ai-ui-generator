@@ -6,6 +6,8 @@ import PreviewPanel from "./components/PreviewPanel.jsx";
 export default function App() {
   const [code, setCode] = useState("");
   const [explanation, setExplanation] = useState("");
+  const [history, setHistory] = useState([]);
+
 
   return (
     <div style={{ display: "flex", flexDirection: "column", height: "100vh" }}>
@@ -52,8 +54,20 @@ export default function App() {
           >
             💬 AI Chat
           </div>
-          <ChatPanel setCode={setCode} setExplanation={setExplanation} />
+          <ChatPanel setCode={setCode} setExplanation={setExplanation} setHistory={setHistory}   />
         </div>
+        <div>
+          <h4>History</h4>
+          {history.map((item, index) => (
+            <div key={index}
+              style={{ cursor: "pointer", marginBottom: "8px" }}
+              onClick={() => setCode(item.code)}
+            >
+              {item.input}
+            </div>
+          ))}
+        </div>
+
 
         {/* CODE EDITOR */}
         <div
@@ -64,14 +78,14 @@ export default function App() {
             display: "flex",
             flexDirection: "column",
           }}
-        >
+          >
           <div
             style={{
               fontWeight: 600,
               marginBottom: 12,
               color: "#8b5cf6",
             }}
-          >
+            >
             🧠 Code Editor
           </div>
           <CodeEditorPanel code={code} setCode={setCode} />
@@ -97,7 +111,7 @@ export default function App() {
             🎨 Live Preview
           </div>
           <PreviewPanel code={code} />
-          
+
           <div style={{ padding: "16px", borderTop: "1px solid #ddd" }}>
             <h3>AI Reasoning</h3>
             <p>{explanation}</p>
