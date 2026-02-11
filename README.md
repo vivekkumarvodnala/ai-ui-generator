@@ -1,16 +1,43 @@
-# React + Vite
+# AI UI Generator
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Overview
+An AI-powered multi-agent system that converts natural language into deterministic React UI components.
 
-Currently, two official plugins are available:
+## Architecture
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+User Input  
+→ Planner Agent (structured layout JSON)  
+→ Generator Agent (JSX output using allowed components)  
+→ Validation Layer (component whitelist enforcement)  
+→ Babel Compilation  
+→ Dynamic Live Preview Rendering  
+→ Explanation Agent (reasoning display)  
+→ Version History (generation tracking)
 
-## React Compiler
+## Agents
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### Planner Agent
+- Converts user description into structured UI plan JSON.
+- Restricts output to allowed components.
 
-## Expanding the ESLint configuration
+### Generator Agent
+- Converts plan into JSX fragment.
+- Strictly no imports, no export, no markdown.
+- Deterministic component usage.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Explanation Agent
+- Explains why specific components and layout were chosen.
+
+## Safety Measures
+- Component whitelist validation
+- No arbitrary JSX allowed
+- Controlled dynamic evaluation
+
+## Tech Stack
+- React
+- Express
+- Gemini API
+- Babel Standalone
+
+## Deployment
+Frontend + Backend deployed via (Vercel / Render / etc.)
