@@ -1,48 +1,103 @@
-export function Table({ columns, data }) {
-  return (
-    <table
-      style={{
-        width: "100%",
-        borderCollapse: "collapse",
-        marginTop: "10px"
-      }}
-    >
-      <thead>
-        <tr>
-          {columns &&
-            columns.map((col, index) => (
-              <th
-                key={index}
-                style={{
-                  border: "1px solid #ddd",
-                  padding: "8px",
-                  backgroundColor: "#f3f4f6"
-                }}
-              >
-                {col}
-              </th>
-            ))}
-        </tr>
-      </thead>
+import React from "react";
 
-      <tbody>
-        {data &&
-          data.map((row, rowIndex) => (
-            <tr key={rowIndex}>
-              {columns.map((col, colIndex) => (
-                <td
-                  key={colIndex}
+export function Table({
+  columns = [],
+  data = [],
+  rows = [],
+}) {
+
+  // Normalize data safely
+  let tableData = [];
+
+  if (Array.isArray(data)) {
+    tableData = data;
+  } else if (Array.isArray(rows)) {
+    tableData = rows;
+  } else if (typeof data === "object" && data !== null) {
+    tableData = [data];
+  }
+
+  if (!Array.isArray(tableData)) {
+    tableData = [];
+  }
+
+  return (
+    <div style={{ overflowX: "auto", marginTop: "16px" }}>
+      <table
+        style={{
+          width: "100%",
+          borderCollapse: "collapse",
+          border: "1px solid #ccc"
+        }}
+      >
+        <thead>
+          <tr>
+            {columns.map((col, index) => {
+              const headerText =
+                typeof col === "object"
+                  ? col.header || col.label || ""
+                  : col;
+
+              return (
+                <th
+                  key={index}
                   style={{
-                    border: "1px solid #ddd",
-                    padding: "8px"
+                    border: "1px solid #ccc",
+                    padding: "8px",
+                    backgroundColor: "#f4f4f4",
+                    textAlign: "left"
                   }}
                 >
-                  {row[col]}
-                </td>
-              ))}
+                  {headerText}
+                </th>
+              );
+            })}
+          </tr>
+        </thead>
+
+        <tbody>
+          {tableData.length > 0 ? (
+            tableData.map((row, rowIndex) => (
+              <tr key={rowIndex}>
+                {columns.map((col, colIndex) => {
+
+                  let accessor;
+
+                  if (typeof col === "object") {
+                    accessor = col.accessor || col.id;
+                  } else {
+                    accessor = col;
+                  }
+
+                  return (
+                    <td
+                      key={colIndex}
+                      style={{
+                        border: "1px solid #ccc",
+                        padding: "8px"
+                      }}
+                    >
+                      {row?.[accessor] ?? ""}
+                    </td>
+                  );
+                })}
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td
+                colSpan={columns.length}
+                style={{
+                  padding: "8px",
+                  textAlign: "center"
+                }}
+              >
+                No data available
+              </td>
             </tr>
-          ))}
-      </tbody>
-    </table>
+          )}
+        </tbody>
+      </table>
+    </div>
   );
 }

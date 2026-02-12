@@ -7,6 +7,8 @@ export default function App() {
   const [code, setCode] = useState("");
   const [explanation, setExplanation] = useState("");
   const [history, setHistory] = useState([]);
+  const [currentPlan, setCurrentPlan] = useState(null);
+
 
   return (
     <div style={{ display: "flex", flexDirection: "column", height: "100vh" }}>
@@ -59,8 +61,11 @@ export default function App() {
             </div>
             <ChatPanel
               setCode={setCode}
-              setExplanation={setExplanation}
-              setHistory={setHistory}
+  setExplanation={setExplanation}
+  currentPlan={currentPlan}
+  setCurrentPlan={setCurrentPlan}
+  history={history}
+  setHistory={setHistory}
             />
           </div>
 
@@ -92,11 +97,13 @@ export default function App() {
                     marginBottom: "6px",
                     cursor: "pointer",
                     fontSize: "13px",
-                    background: "rgba(99,102,241,0.05)"
+                    background: "rgba(99,102,241,0.05)",
+                    color: "#1e293b"
+                    
                   }}
                   onClick={() => setCode(item.code)}
                 >
-                  {item.input}
+                  {item.userInput}
                 </div>
               ))}
             </div>

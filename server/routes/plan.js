@@ -1,69 +1,76 @@
 import express from "express";
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import 'dotenv/config'; // Load .env variables at the very top
+import "dotenv/config";
 
 const router = express.Router();
 
-// 1. Initialize API with safety check
 const apiKey = process.env.GEMINI_API_KEY;
+
 if (!apiKey) {
-  console.error("❌ ERROR: GEMINI_API_KEY is not defined in your .env file.");
+  console.error("❌ GEMINI_API_KEY is not defined.");
 }
 
 const genAI = new GoogleGenerativeAI(apiKey);
 
-// 2. Configure the model for 2026 performance
-const model = genAI.getGenerativeModel({ 
-  model: "gemini-2.5-flash", // Change from 'pro' to 'flash'
+const model = genAI.getGenerativeModel({
+  model: "gemini-2.5-flash",
   generationConfig: {
     responseMimeType: "application/json",
-  }
+  },
 });
 
 router.post("/", async (req, res) => {
-  const { userInput } = req.body;
+  const { userInput, previousPlan } = req.body;
 
-  // Validate input
   if (!userInput) {
     return res.status(400).json({ error: "No user input provided." });
   }
 
   try {
     const prompt = `
-      You are a UI planning agent.
-      Allowed components: Button, Card, Input, Modal, Table, Sidebar, Navbar
+You are a deterministic UI planning agent.
 
-      Return STRICT JSON only in this format:
-      {
-        "layout": [],
-        "components": [
-          { "type": "", "props": {} }
-        ]
-      }
+Allowed components:
+Button, Card, Input, Modal, Table, Sidebar, Navbar
 
-      User Request:
-      ${userInput}
-    `;
+STRICT RULES:
+- Return STRICT JSON only.
+- If previousPlan exists, MODIFY it minimally.
+- Do NOT regenerate everything unless necessary.
+- Preserve existing structure where possible.
+- No explanation text.
+
+VERY IMPORTANT:
+You are modifying an existing UI.
+Do NOT remove components unless user explicitly requests removal.
+Do NOT reorder layout unless required.
+Only apply minimal structural changes.
+
+
+Previous Plan:
+${previousPlan ? JSON.stringify(previousPlan, null, 2) : "None"}
+
+User Request:
+${userInput}
+
+Return format:
+{
+  "layout": [],
+  "components": [
+    { "type": "", "props": {} }
+  ]
+}
+`;
 
     const result = await model.generateContent(prompt);
-    const text = result.response.text();
-
-    // Parse the string into a real JSON object before sending
+    const text = await result.response.text();
     const plan = JSON.parse(text);
 
     res.json({ plan });
 
   } catch (error) {
-    console.error("Gemini API Error:", error.message);
-    
-    // Check for common 403 errors (invalid key/unregistered caller)
-    if (error.message.includes("403")) {
-      return res.status(403).json({ 
-        error: "API Authentication Failed. Check if your API Key is correctly set in .env" 
-      });
-    }
-
-    res.status(500).json({ error: "Internal Server Error during UI generation." });
+    console.error("Planner Error:", error);
+    res.status(500).json({ error: "Planner failed." });
   }
 });
 
