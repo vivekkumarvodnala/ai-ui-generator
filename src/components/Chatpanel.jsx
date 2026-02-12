@@ -1,58 +1,100 @@
 import { useState } from "react";
 import axios from "axios";
 
-export default function ChatPanel({ setCode,setExplanation,setHistory }) {
+export default function ChatPanel({
+  setCode,
+  setExplanation,
+  setHistory
+}) {
   const [input, setInput] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const handleGenerate = async () => {
+    if (!input.trim()) return;
+
     try {
-      // Step 1: Call Planner
-      const planRes = await axios.post("http://localhost:5000/plan", {
-        userInput: input,
-      });
+      setLoading(true);
+      setError("");
+
+      // 🔹 STEP 1: Call Planner Agent
+      const planRes = await axios.post(
+        "http://localhost:5000/plan",
+        { userInput: input }
+      );
 
       const plan = planRes.data.plan;
 
-      console.log("Plan:", plan);
-
-      // Step 2: Call Generator
-      const generateRes = await axios.post("http://localhost:5000/generate", {
-        plan: plan,
-      });
-      const explainRes = await axios.post("http://localhost:5000/explain", {
-        plan: plan,
-      });
-
-      setExplanation(explainRes.data.explanation);
+      // 🔹 STEP 2: Call Generator Agent
+      const generateRes = await axios.post(
+        "http://localhost:5000/generate",
+        { plan }
+      );
 
       const code = generateRes.data.code;
 
+      // 🔹 STEP 3: Call Explanation Agent
+      const explainRes = await axios.post(
+        "http://localhost:5000/explain",
+        { plan }
+      );
 
-      console.log("Generated Code:", code);
+      const explanation = explainRes.data.explanation;
 
-      // Step 3: Set Code in Editor
+      // 🔹 Update states
       setCode(code);
-      setHistory(prev => [...prev, { input, code }]);
+      setExplanation(explanation);
 
-    } catch (error) {
-      console.error("Error generating UI:", error);
+      // 🔹 Save to History (if provided)
+      if (setHistory) {
+        setHistory(prev => [
+          ...prev,
+          { input, code }
+        ]);
+      }
+
+      setInput("");
+
+    } catch (err) {
+      console.error("Generation Error:", err);
+      setError("Something went wrong while generating UI.");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div style={{ padding: "16px" }}>
-      <h3>AI Chat</h3>
+      <h3>AI UI Generator</h3>
 
-      <input
+      <textarea
         value={input}
         onChange={(e) => setInput(e.target.value)}
         placeholder="Describe your UI..."
-        style={{ width: "100%", padding: "8px" }}
+        style={{
+          width: "100%",
+          height: "80px",
+          padding: "8px",
+          marginBottom: "10px"
+        }}
       />
 
-      <button onClick={handleGenerate} style={{ marginTop: "10px" }}>
-        Generate
+      <button
+        onClick={handleGenerate}
+        disabled={loading}
+        style={{
+          padding: "8px 16px",
+          cursor: loading ? "not-allowed" : "pointer"
+        }}
+      >
+        {loading ? "Generating..." : "Generate"}
       </button>
+
+      {error && (
+        <p style={{ color: "red", marginTop: "8px" }}>
+          {error}
+        </p>
+      )}
     </div>
   );
 }
