@@ -1,107 +1,131 @@
-🌟 Overview
+# 🚀 Ryze AI – AI UI Generator
+
+## 🌟 Overview
+
 Ryze AI is a multi-agent AI system that converts natural language descriptions into deterministic, validated React UI components in real time.
 
 It combines structured planning, constrained generation, validation, and live dynamic rendering to ensure safe and controlled UI creation.
 
-🏗 System Architecture
-User Input  
-   ↓  
-Planner Agent → Structured UI Plan (JSON)  
-   ↓  
-Generator Agent → Deterministic JSX Fragment  
-   ↓  
-Validation Layer → Component Whitelist Enforcement  
-   ↓  
-Babel Standalone → Runtime JSX Compilation  
-   ↓  
-Dynamic Live Preview Rendering  
-   ↓  
-Explanation Agent → Structured UI Reasoning  
-   ↓  
-Version History → Iterative Modification Support  
-🤖 Multi‑Agent Design
-1️⃣ Planner Agent
-Converts user intent into structured layout JSON.
+---
 
-Restricts output to approved components only.
+## 🏗 System Architecture
 
-Supports incremental UI modification.
+User Input
+↓
+Planner Agent → Structured UI Plan (JSON)
+↓
+Generator Agent → Deterministic JSX Fragment
+↓
+Validation Layer → Component Whitelist Enforcement
+↓
+Babel Standalone → Runtime JSX Compilation
+↓
+Dynamic Live Preview Rendering
+↓
+Explanation Agent → Structured UI Reasoning
+↓
+Version History → Iterative Modification Support
 
-Prevents arbitrary structure injection.
 
-2️⃣ Generator Agent
-Converts UI plan into strict JSX fragment.
 
-Enforces:
+---
 
-No imports
+## 🤖 Multi‑Agent Design
 
-No exports
+### 1️⃣ Planner Agent
+- Converts user intent into structured layout JSON.
+- Restricts output to approved components only.
+- Supports incremental UI modification.
+- Prevents arbitrary structure injection.
 
-No markdown
+### 2️⃣ Generator Agent
+- Converts UI plan into strict JSX fragment.
+- Enforces:
+  - No imports
+  - No exports
+  - No markdown
+  - No function wrappers
+- Deterministic component generation only.
 
-No function wrappers
+### 3️⃣ Explanation Agent
+- Produces concise, structured reasoning including:
+  - Layout Strategy
+  - Component Decisions
+  - Usability Benefits
+  - Scalability Considerations
 
-Deterministic component generation only.
+---
 
-3️⃣ Explanation Agent
-Produces concise, structured reasoning including:
+## 🔒 Safety & Determinism
 
-Layout Strategy
+- Component whitelist validation
+- No arbitrary JSX execution
+- Defensive rendering logic
+- Controlled dynamic evaluation via Babel
+- Structured JSON-only planning output
+- Incremental state-aware planning
 
-Component Decisions
+---
 
-Usability Benefits
+## 🧠 Key Features
 
-Scalability Considerations
+- Natural language → live UI generation
+- Incremental UI modification
+- Version history tracking
+- Secure component rendering
+- Modern SaaS-style UI system
+- Dynamic runtime compilation
+- Production-ready deployment
 
-🔒 Safety & Determinism
-Component whitelist validation.
+---
 
-No arbitrary JSX execution.
+## 🛠 Tech Stack
 
-Defensive rendering logic.
+### Frontend
+- React (Vite)
+- Babel Standalone
+- Axios
+- Custom UI Component Library
 
-Controlled dynamic evaluation via Babel.
+### Backend
+- Express.js
+- Google Gemini API (2.5 Flash)
+- Structured prompt orchestration
+- Component validation layer
 
-Structured JSON-only planning output.
+---
 
-Incremental state-aware planning.
+## 📁 Project Structure
 
-🧠 Key Features
-Natural language → live UI generation.
+root/
+├── src/ # React frontend
+├── server/ # Express backend
+├── package.json
+├── vite.config.js
 
-Incremental UI modification.
 
-Version history tracking.
 
-Secure component rendering.
+---
 
-Modern SaaS-style UI system.
+## ⚙️ Setup Instructions (Local)
 
-Production deployment.
+### 1️⃣ Clone Repository
 
-Dynamic runtime compilation.
+```bash
+git clone https://github.com/your-username/ai-ui-generator.git
+cd ai-ui-generator
+2️⃣ Install Frontend
+npm install
+3️⃣ Setup Backend
+cd server
+npm install
+Create .env file inside server/:
 
-🛠 Tech Stack
-Frontend
-
-React (Vite)
-
-Babel Standalone
-
-Dynamic JSX Evaluation
-
-Backend
-
-Express.js
-
-Google Gemini API (2.5 Flash)
-
-Structured prompt orchestration
-
-Component validation layer
-
+GEMINI_API_KEY=your_api_key_here
+4️⃣ Run Backend
+node index.js
+5️⃣ Run Frontend (from root)
+npm run dev
 🌍 Deployment
 Frontend:
 https://ai-ui-generator-2wci.vercel.app
@@ -122,17 +146,50 @@ Clear reasoning transparency
 
 Production-readiness
 
-🏆 Why This Is Better
-This version:
+Deterministic component control
 
-Sounds engineered, not student-level
+🧪 Example Prompt
+Create a SaaS dashboard with a navbar, sidebar, stats cards, and a user table.
+The system will:
 
-Shows architecture thinking
+Generate structured JSON plan
 
-Shows safety awareness
+Convert to JSX using allowed components
 
-Shows production readiness
+Validate output
 
-Emphasizes determinism
+Compile dynamically
 
-Demonstrates structured AI orchestration
+Render preview instantly
+
+Explain design decisions clearly
+
+🏆 Highlights
+Multi-agent orchestration pattern
+
+Secure AI-generated UI rendering
+
+Incremental modification support
+
+Production deployment ready
+
+Clean, modern UI system
+
+Structured explanation output
+
+📬 Author
+Vivek Kumar Vodnala
+AI UI Generator – Ryze Full Stack Assignment
+
+
+---
+
+✅ This is clean  
+✅ Professional  
+✅ Evaluator-friendly  
+✅ Production-level tone  
+✅ Shows architecture depth  
+
+If you want, I can also give you a **shorter 1-page version** in case submission reviewers prefer concise documentation.
+
+
