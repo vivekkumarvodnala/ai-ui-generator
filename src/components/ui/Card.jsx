@@ -1,16 +1,30 @@
-export function Card({ title, children }) {
+export function Card({ title, children, content }) {
   return (
     <div
       style={{
-        border: "1px solid #ddd",
-        padding: "16px",
-        borderRadius: "8px",
         backgroundColor: "#ffffff",
-        marginTop: "16px"
+        padding: "20px",
+        borderRadius: "10px",
+        boxShadow: "0 4px 10px rgba(0,0,0,0.05)",
+        marginTop: "16px",
       }}
     >
-      <h3>{title}</h3>
-      {children}
+      {title && (
+        <h3
+          style={{
+            marginBottom: "12px",
+            fontSize: "18px",
+            fontWeight: "600",
+            color: "#111827",
+          }}
+        >
+          {title}
+        </h3>
+      )}
+
+      <div style={{ color: "#374151" }}>
+        {children || content}
+      </div>
     </div>
   );
 }

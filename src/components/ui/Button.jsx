@@ -1,6 +1,9 @@
-export function Button({ label }) {
+export function Button({ label, text, children, onClick }) {
+  const content = label || text || children;
+
   return (
     <button
+      onClick={onClick}
       style={{
         backgroundColor: "#2563eb",
         color: "white",
@@ -11,7 +14,7 @@ export function Button({ label }) {
         marginTop: "10px"
       }}
     >
-      {label}
+      {content}
     </button>
   );
 }

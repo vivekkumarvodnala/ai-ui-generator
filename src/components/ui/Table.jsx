@@ -22,82 +22,100 @@ export function Table({
   }
 
   return (
-    <div style={{ overflowX: "auto", marginTop: "16px" }}>
-      <table
-        style={{
-          width: "100%",
-          borderCollapse: "collapse",
-          border: "1px solid #ccc"
-        }}
-      >
-        <thead>
-          <tr>
-            {columns.map((col, index) => {
-              const headerText =
-                typeof col === "object"
-                  ? col.header || col.label || ""
-                  : col;
+    <div
+      style={{
+        marginTop: "20px",
+        backgroundColor: "#ffffff",
+        borderRadius: "10px",
+        boxShadow: "0 4px 12px rgba(0,0,0,0.05)",
+        overflow: "hidden",
+      }}
+    >
+      <div style={{ overflowX: "auto" }}>
+        <table
+          style={{
+            width: "100%",
+            borderCollapse: "collapse",
+            fontSize: "14px",
+          }}
+        >
+          <thead>
+            <tr style={{ backgroundColor: "#f9fafb" }}>
+              {columns.map((col, index) => {
+                const headerText =
+                  typeof col === "object"
+                    ? col.header || col.label || ""
+                    : col;
 
-              return (
-                <th
-                  key={index}
+                return (
+                  <th
+                    key={index}
+                    style={{
+                      padding: "12px 16px",
+                      textAlign: "left",
+                      fontWeight: "600",
+                      color: "#111827",
+                      borderBottom: "1px solid #e5e7eb",
+                    }}
+                  >
+                    {headerText}
+                  </th>
+                );
+              })}
+            </tr>
+          </thead>
+
+          <tbody>
+            {tableData.length > 0 ? (
+              tableData.map((row, rowIndex) => (
+                <tr
+                  key={rowIndex}
                   style={{
-                    border: "1px solid #ccc",
-                    padding: "8px",
-                    backgroundColor: "#f4f4f4",
-                    textAlign: "left"
+                    backgroundColor:
+                      rowIndex % 2 === 0 ? "#ffffff" : "#f9fafb",
                   }}
                 >
-                  {headerText}
-                </th>
-              );
-            })}
-          </tr>
-        </thead>
+                  {columns.map((col, colIndex) => {
+                    let accessor;
 
-        <tbody>
-          {tableData.length > 0 ? (
-            tableData.map((row, rowIndex) => (
-              <tr key={rowIndex}>
-                {columns.map((col, colIndex) => {
+                    if (typeof col === "object") {
+                      accessor = col.accessor || col.id;
+                    } else {
+                      accessor = col;
+                    }
 
-                  let accessor;
-
-                  if (typeof col === "object") {
-                    accessor = col.accessor || col.id;
-                  } else {
-                    accessor = col;
-                  }
-
-                  return (
-                    <td
-                      key={colIndex}
-                      style={{
-                        border: "1px solid #ccc",
-                        padding: "8px"
-                      }}
-                    >
-                      {row?.[accessor] ?? ""}
-                    </td>
-                  );
-                })}
+                    return (
+                      <td
+                        key={colIndex}
+                        style={{
+                          padding: "12px 16px",
+                          borderBottom: "1px solid #f1f5f9",
+                          color: "#374151",
+                        }}
+                      >
+                        {row?.[accessor] ?? ""}
+                      </td>
+                    );
+                  })}
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td
+                  colSpan={columns.length}
+                  style={{
+                    padding: "16px",
+                    textAlign: "center",
+                    color: "#6b7280",
+                  }}
+                >
+                  No data available
+                </td>
               </tr>
-            ))
-          ) : (
-            <tr>
-              <td
-                colSpan={columns.length}
-                style={{
-                  padding: "8px",
-                  textAlign: "center"
-                }}
-              >
-                No data available
-              </td>
-            </tr>
-          )}
-        </tbody>
-      </table>
+            )}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }

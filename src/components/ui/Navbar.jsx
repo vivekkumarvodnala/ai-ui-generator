@@ -1,4 +1,6 @@
-export function Navbar({ brand, links = [] }) {
+export function Navbar({ brand, title, links = [] }) {
+  const heading = brand || title;
+
   return (
     <div
       style={{
@@ -11,7 +13,7 @@ export function Navbar({ brand, links = [] }) {
       }}
     >
       <div style={{ fontWeight: "bold" }}>
-        {brand}
+        {heading}
       </div>
 
       <div style={{ display: "flex", gap: "16px" }}>

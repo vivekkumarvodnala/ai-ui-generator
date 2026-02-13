@@ -12,7 +12,7 @@ router.post("/", async (req, res) => {
       model: "gemini-2.5-flash",
     });
 
-  const prompt = `
+    const prompt = `
 You are a senior SaaS product architect.
 
 Provide structured reasoning under these sections:
