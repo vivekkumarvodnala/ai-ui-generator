@@ -18,20 +18,20 @@ export default function ChatPanel({
   try {
     setLoading(true);
 
-    const planRes = await axios.post(`http://localhost:5000/plan`, {
+    const planRes = await axios.post(`https://ai-ui-generator-fowq.onrender.com/plan`, {
       userInput: input,
       previousPlan: currentPlan,
     });
 
     const newPlan = planRes.data.plan;
 
-    const generateRes = await axios.post(`http://localhost:5000/generate`, {
+    const generateRes = await axios.post(`https://ai-ui-generator-fowq.onrender.com/generate`, {
       plan: newPlan,
     });
 
     const newCode = generateRes.data.code;
 
-    const explainRes = await axios.post(`http://localhost:5000/explain`, {
+    const explainRes = await axios.post(`https://ai-ui-generator-fowq.onrender.com/explain`, {
       plan: newPlan,
     });
 
