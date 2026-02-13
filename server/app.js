@@ -10,7 +10,10 @@ import explainRoute from "./routes/explain.js";
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+  origin: "https://ai-ui-generator-2wci.vercel.app"
+}));
+
 app.use(express.json());
 
 app.use("/plan", planRoute);
