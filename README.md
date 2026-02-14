@@ -1,195 +1,107 @@
-# 🚀 Ryze AI – AI UI Generator
+# AI UI Generator
 
-## 🌟 Overview
+An AI-powered multi-agent system that converts natural language into deterministic React UI components using Google's Gemini AI. This project features a React frontend for interaction and visualization, and an Express backend for AI processing.
 
-Ryze AI is a multi-agent AI system that converts natural language descriptions into deterministic, validated React UI components in real time.
+## 🚀 Features
 
-It combines structured planning, constrained generation, validation, and live dynamic rendering to ensure safe and controlled UI creation.
+- **AI Chat Interface**: Describe your desired UI in natural language.
+- **Structured Planning**: The system first creates a structural plan before generating code.
+- **Deterministic React Code**: Generates clean, functional React components.
+- **Live Preview**: Instantly render and interact with the generated UI.
+- **Code Editor**: View and modify the generated code using the integrated Monaco Editor.
+- **AI Explanation**: receive insights into the design decisions made by the AI.
+- **Safety**: Uses a component whitelist and validation layer to ensure secure code generation.
 
----
+## 🏗️ Architecture
 
-## 🏗 System Architecture
+The system operates using a pipeline of specialized AI agents:
 
-User Input
-↓
-Planner Agent → Structured UI Plan (JSON)
-↓
-Generator Agent → Deterministic JSX Fragment
-↓
-Validation Layer → Component Whitelist Enforcement
-↓
-Babel Standalone → Runtime JSX Compilation
-↓
-Dynamic Live Preview Rendering
-↓
-Explanation Agent → Structured UI Reasoning
-↓
-Version History → Iterative Modification Support
+1.  **User Input**: Natural language description of the UI.
+2.  **Planner Agent**: Converts description into a structured JSON layout plan.
+3.  **Generator Agent**: Converts the plan into a JSX fragment using allowed components.
+4.  **Validation Layer**: Enforces component whitelisting (Button, Card, Input, Modal, Table, Navbar, Sidebar).
+5.  **Explanation Agent**: Provides reasoning for the design choices.
+6.  **Live Preview**: Renders the safe JSX in the frontend.
 
+## 🛠️ Tech Stack
 
+- **Frontend**: React, Vite, Monaco Editor, Axios
+- **Backend**: Node.js, Express
+- **AI**: Google Gemini API (`gemini-2.5-flash`)
+- **Styling**: CSS (loaded via Vite), Inline Styles
 
----
+## 📦 Installation
 
-## 🤖 Multi‑Agent Design
+### Prerequisites
 
-### 1️⃣ Planner Agent
-- Converts user intent into structured layout JSON.
-- Restricts output to approved components only.
-- Supports incremental UI modification.
-- Prevents arbitrary structure injection.
+- Node.js (v18 or higher recommended)
+- npm or yarn
+- A [Google Gemini API Key](https://aistudio.google.com/app/apikey)
 
-### 2️⃣ Generator Agent
-- Converts UI plan into strict JSX fragment.
-- Enforces:
-  - No imports
-  - No exports
-  - No markdown
-  - No function wrappers
-- Deterministic component generation only.
-
-### 3️⃣ Explanation Agent
-- Produces concise, structured reasoning including:
-  - Layout Strategy
-  - Component Decisions
-  - Usability Benefits
-  - Scalability Considerations
-
----
-
-## 🔒 Safety & Determinism
-
-- Component whitelist validation
-- No arbitrary JSX execution
-- Defensive rendering logic
-- Controlled dynamic evaluation via Babel
-- Structured JSON-only planning output
-- Incremental state-aware planning
-
----
-
-## 🧠 Key Features
-
-- Natural language → live UI generation
-- Incremental UI modification
-- Version history tracking
-- Secure component rendering
-- Modern SaaS-style UI system
-- Dynamic runtime compilation
-- Production-ready deployment
-
----
-
-## 🛠 Tech Stack
-
-### Frontend
-- React (Vite)
-- Babel Standalone
-- Axios
-- Custom UI Component Library
-
-### Backend
-- Express.js
-- Google Gemini API (2.5 Flash)
-- Structured prompt orchestration
-- Component validation layer
-
----
-
-## 📁 Project Structure
-
-root/
-├── src/ # React frontend
-├── server/ # Express backend
-├── package.json
-├── vite.config.js
-
-
-
----
-
-## ⚙️ Setup Instructions (Local)
-
-### 1️⃣ Clone Repository
+### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/your-username/ai-ui-generator.git
+git clone <repository-url>
 cd ai-ui-generator
-2️⃣ Install Frontend
-npm install
-3️⃣ Setup Backend
+```
+
+### 2. Backend Setup
+
+Navigate to the server directory and install dependencies:
+
+```bash
 cd server
 npm install
-Create .env file inside server/:
+```
 
-GEMINI_API_KEY=your_api_key_here
-4️⃣ Run Backend
-node index.js
-5️⃣ Run Frontend (from root)
+Create a `.env` file in the `server` directory and add your Gemini API key:
+
+```env
+GEMINI_API_KEY=your_actual_api_key_here
+PORT=5000
+```
+
+Start the backend server:
+
+```bash
+node app.js
+```
+
+The server will run on `http://localhost:5000`.
+
+### 3. Frontend Setup
+
+Open a new terminal, navigate to the project root, and install dependencies:
+
+```bash
+# From the project root (ai-ui-generator)
+npm install
+```
+
+Start the development server:
+
+```bash
 npm run dev
-🌍 Deployment
-Frontend:
-https://ai-ui-generator-2wci.vercel.app
+```
 
-Backend:
-https://ai-ui-generator-fowq.onrender.com
+The frontend will run on `http://localhost:5173` (default Vite port).
 
-📌 Design Philosophy
-Ryze AI focuses on:
+## ⚠️ Important Note on Local Development
 
-Constrained generation over free-form AI output
+This project currently has **hardcoded URLs** that point to a deployed production environment. To run the full stack locally, you must update the following files:
 
-Safety-first execution model
+1.  **Frontend (`src/components/Chatpanel.jsx`)**:
+    Change all instances of `https://ai-ui-generator-fowq.onrender.com` to `http://localhost:5000`.
 
-Structured intermediate representations
+2.  **Backend (`server/app.js`)**:
+    Update the CORS origin `https://ai-ui-generator-2wci.vercel.app` to include your local frontend URL (e.g., `http://localhost:5173`).
 
-Clear reasoning transparency
+    ```javascript
+    app.use(cors({
+      origin: ["https://ai-ui-generator-2wci.vercel.app", "http://localhost:5173"]
+    }));
+    ```
 
-Production-readiness
+## 📄 License
 
-Deterministic component control
-
-🧪 Example Prompt
-Create a SaaS dashboard with a navbar, sidebar, stats cards, and a user table.
-The system will:
-
-Generate structured JSON plan
-
-Convert to JSX using allowed components
-
-Validate output
-
-Compile dynamically
-
-Render preview instantly
-
-Explain design decisions clearly
-
-🏆 Highlights
-Multi-agent orchestration pattern
-
-Secure AI-generated UI rendering
-
-Incremental modification support
-
-Production deployment ready
-
-Clean, modern UI system
-
-Structured explanation output
-
-📬 Author
-Vivek Kumar Vodnala
-AI UI Generator – Ryze Full Stack Assignment
-
-
----
-
-✅ This is clean  
-✅ Professional  
-✅ Evaluator-friendly  
-✅ Production-level tone  
-✅ Shows architecture depth  
-
-If you want, I can also give you a **shorter 1-page version** in case submission reviewers prefer concise documentation.
-
-
+[ISC](LICENSE)
